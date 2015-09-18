@@ -50,17 +50,17 @@
   unsigned char blink = 0;
   sbit blinkc at blink.B4;  // blink period is 16times of tick base
  unsigned char dig_disp=0;
- int hour=0;
- int hour2=0;
- int hour1=0;
- int min2=0;
- int min1=0;
- int sec2=0;
- int sec1=0;
+ unsigned char hour=0;
+ unsigned char hour2=0;
+ unsigned char hour1=0;
+ unsigned char min2=0;
+ unsigned char min1=0;
+ unsigned char sec2=0;
+ unsigned char sec1=0;
  unsigned char tempo =0;
  unsigned char mode=0;     // 0: online, 1: idle power, 2: min set, 3: hour set.
- int postflg=0;
- int timer_0_cnt=0;
+ unsigned char postflg=0;
+ unsigned char timer_0_cnt=0;
 
 
 
@@ -148,12 +148,12 @@ void display() iv IVT_ADDR_ET1 ilevel 4 ics ICS_AUTO {
         P1=    digi_val[min2];
         dig_ctrl_4 = 0;
         break;
-        
+
         case 4:
         P1=    digi_val[hour1];
         dig_ctrl_5 = 0;
         break;
-        
+
         case 5:
         P1=    digi_val[hour2];
         dig_ctrl_6 = 0;
