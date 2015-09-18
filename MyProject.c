@@ -83,11 +83,9 @@ void delay()        //Function to provide a time delay of approx. 1 second. usin
 // This logic should happened all of 25ms interrupt without lost.
 // and timer 0 interrupt should maintain 25ms interval as accurate.
     while(timer_0_cnt==0 ){   // wait post flag from interrupt
-        // PCON.B0 = 1;       // idle mode request for avoid timer1 (dynamic scan interrupt)
+        PCON.B0 = 1;       // idle mode request for avoid timer1 (dynamic scan interrupt)
     };
-    EA_bit=0;
     timer_0_cnt--;    // clear post flag (25ms)
-    IE=0x8a;
 }
 /*
  unsigned char keycnt=0;
@@ -250,6 +248,7 @@ void main()
           //Debug code for display position
           //hour=0;hour2=1;hour1=2;min2=3;min1=4;sec2=5;sec1=6;
           //while(1);
+          PCON.B0 = 1;
           delay();
           switch(mode) {
           case 0: // Online;
