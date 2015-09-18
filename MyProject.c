@@ -16,7 +16,7 @@
 #define LED_SCAN 2500 // 2.5mS
 #define TICK_BASE 25000  // 25mS
 #define TIME1SEC 1000000 // 1Sec
-#define TICK_CNT TIME1SEC/TICK_BASE //
+#define TICK_CNT (TIME1SEC/TICK_BASE)-1 //
 #define VALTL0 ((0-TICK_BASE)& 0xff) //
 #define OPT  3   //
 #define VALTL0OPT (VALTL0+OPT) //
