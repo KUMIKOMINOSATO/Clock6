@@ -18,7 +18,7 @@
 #define TIME1SEC 1000000 // 1Sec
 #define TICK_CNT (TIME1SEC/TICK_BASE)-1 //
 #define VALTL0 ((0-TICK_BASE)& 0xff) //
-#define OPT  4   // debug results shows 2sec faster during 10hours so opt value need to increase.
+#define OPT  2   // debug results shows 2sec faster during 10hours so opt value need to adjust
 #define VALTL0OPT (VALTL0+OPT) //
 #define VALTH0 ((0-TICK_BASE)>> 8) //
 #define VALTL1 ((0-LED_SCAN) & 0xff) //
