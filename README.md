@@ -9,3 +9,7 @@ Tool: MikroC Pro for 8051 (It is freeware for this usage as within 4kB image)
 Target kit SHE-879 and AKIT-112
 
 Single SW for clock setting.
+
+This version makes it for power optimize as following design.
+- Low frequency interrupt.
+- Idle mode assert on main logic
