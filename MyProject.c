@@ -134,38 +134,38 @@ void timer1() iv IVT_ADDR_ET1 ics ICS_AUTO {
           timer8ms =0;
     }
     P3=0xbf;
-    P1=0xff;
+    P1=P1 | 0x7f;
     dig_disp=++dig_disp%6;
     switch (mode){         // No display
     case 0:
         switch(dig_disp){
         case 0:
-        P1=digi_val[sec1];
+        P1=(P1 & 0x80) |digi_val[sec1];
         dig_ctrl_1 = 0;
         break;
 
         case 1:
-        P1=    digi_val[sec2];
+        P1= (P1 & 0x80) |   digi_val[sec2];
         dig_ctrl_2 = 0;
         break;
 
         case 2:
-        P1=    digi_val[min1];
+        P1= (P1 & 0x80) |   digi_val[min1];
         dig_ctrl_3 = 0;
         break;
 
         case 3:
-        P1=    digi_val[min2];
+        P1= (P1 & 0x80) |  digi_val[min2];
         dig_ctrl_4 = 0;
         break;
 
         case 4:
-        P1=    digi_val[hour1];
+        P1= (P1 & 0x80) |   digi_val[hour1];
         dig_ctrl_5 = 0;
         break;
 
         case 5:
-        P1=    digi_val[hour2];
+        P1= (P1 & 0x80) |   digi_val[hour2];
         dig_ctrl_6 = 0;
         break;
         }
@@ -173,32 +173,32 @@ void timer1() iv IVT_ADDR_ET1 ics ICS_AUTO {
     case 2:    // Min set mode blinking
         switch(dig_disp){
         case 0:
-             P1=digi_val[sec1];
+             P1=(P1 & 0x80) |digi_val[sec1];
              dig_ctrl_1 = 0;
              break;
 
         case 1:
-             P1=    digi_val[sec2];
+             P1= (P1 & 0x80) |   digi_val[sec2];
              dig_ctrl_2 = 0;
              break;
 
         case 2:
-             P1=    digi_val[min1];
+             P1= (P1 & 0x80) |   digi_val[min1];
              if(blinkc == 1) dig_ctrl_3 = 0;
              break;
 
         case 3:
-             P1=    digi_val[min2];
+             P1= (P1 & 0x80) |   digi_val[min2];
              if(blinkc ==1 ) dig_ctrl_4 = 0;
              break;
 
         case 4:
-             P1=    digi_val[hour1];
+             P1= (P1 & 0x80) |   digi_val[hour1];
              dig_ctrl_5 = 0;
              break;
 
         case 5:
-             P1=    digi_val[hour2];
+             P1= (P1 & 0x80) |   digi_val[hour2];
              dig_ctrl_6 = 0;
              break;
         }
@@ -206,32 +206,32 @@ void timer1() iv IVT_ADDR_ET1 ics ICS_AUTO {
     case 3:   // hour set mode blinking
         switch(dig_disp){
         case 0:
-             P1=digi_val[sec1];
+             P1=(P1 & 0x80) |digi_val[sec1];
              dig_ctrl_1 = 0;
              break;
 
         case 1:
-             P1=    digi_val[sec2];
+             P1= (P1 & 0x80) |   digi_val[sec2];
              dig_ctrl_2 = 0;
              break;
 
         case 2:
-             P1=    digi_val[min1];
+             P1= (P1 & 0x80) |   digi_val[min1];
              dig_ctrl_3 = 0;
              break;
 
         case 3:
-             P1=    digi_val[min2];
+             P1= (P1 & 0x80) |   digi_val[min2];
              dig_ctrl_4 = 0;
              break;
 
         case 4:
-             P1=    digi_val[hour1];
+             P1=(P1 & 0x80) |   digi_val[hour1];
              if (blinkc ==1) dig_ctrl_5 = 0;
              break;
 
         case 5:
-             P1=    digi_val[hour2];
+             P1= (P1 & 0x80) |   digi_val[hour2];
              if (blinkc ==1) dig_ctrl_6 = 0;
              break;
 
