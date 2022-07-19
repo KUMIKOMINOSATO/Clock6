@@ -12,10 +12,16 @@
 //  Sampling continuous right timer250us bit4 by 4ms sampling.
 // It makes accurate 8ms timing with double sample.
 // Ver13 Tiemr0 250us Timer1 2.5ms for oversamplng on 8ms timing.
+// 2022.Jul.18 Ver12.0 Shigemal
+// Some of hardware shows startup collapse
+// So it looks hardware reset glitch may cause issue because operation is kept by coin battery.
+// Added YC33
+// Added comment for LED elements
 //
 // Target board definition
-#define AKIT112
-//#define SHE879
+//#define AKIT112
+#define SHE879
+//#define YC33
 //
 // System Parameter
 #define TIM0_TICK 250 // 250uS
@@ -29,6 +35,22 @@
 #define PRESS_TIME 320000
 #define PRESS_CNT PRESS_TIME/TICK_BASE //
 //
+#ifdef YC33
+ sbit dig_ctrl_6 at P3.B0;        //Declaring control pins of the seven segments
+ sbit dig_ctrl_5 at P3.B1;
+ sbit dig_ctrl_4 at P3.B2;
+ sbit dig_ctrl_3 at P3.B4;
+ sbit dig_ctrl_2 at P3.B3;
+ sbit dig_ctrl_1 at P3.B5;
+  // 7seg data has been configured for YC33
+ //     a         P1.0
+ //   f   b    P1.5   P1.1
+ //     g         P1.6
+ //   e   c    P1.4   P1.2
+ //     d         P1.3
+ //
+ char digi_val[11]={0x08,0x79,0x44,0x30,0x19,0x12,0x02,0x78,0x00,0x10,0xff};
+#endif
 #ifdef SHE879
  sbit dig_ctrl_6 at P3.B0;        //Declaring control pins of the seven segments
  sbit dig_ctrl_5 at P3.B1;
@@ -36,8 +58,16 @@
  sbit dig_ctrl_3 at P3.B4;
  sbit dig_ctrl_2 at P3.B3;
  sbit dig_ctrl_1 at P3.B5;
+
+  // 7seg data has been configured for SHE-879
+ //     a         P1.0
+ //   f   b    P1.2   P1.1
+ //     g         P1.3
+ //   e   c    P1.5   P1.6
+ //     d         P1.4
+ //
   // 7seg data has been configured for SH-E879
- char digi_val[11]={0x08,0x3d,0x44,0x24,0x31,0x22,0x02,0x3c,0x00,0x20,0xff}; 
+ char digi_val[11]={0x08,0x3d,0x44,0x24,0x31,0x22,0x02,0x3c,0x00,0x20,0xff};
 #endif
 #ifdef AKIT112
  sbit dig_ctrl_6 at P3.B5;        //Declaring control pins of the seven segments
@@ -66,6 +96,8 @@
  unsigned char mode=0;     // 0: online, 1: idle power, 2: min set, 3: hour set.
  unsigned char postflg=0;
  unsigned char timer_1_cnt=0;
+ unsigned char work1;
+ unsigned char work2;
 
 
 
@@ -82,7 +114,7 @@ void delay()        //Function to provide a time delay of approx. 1 second. usin
 // This logic should happened all of 25ms interrupt without lost.
 // and timer 0 interrupt should maintain 25ms interval as accurate.
     while(timer_1_cnt==0 ){   // wait post flag from interrupt
-        // PCON.B0 = 1;       // idle mode request for avoid timer1 (dynamic scan interrupt)
+        PCON.B0 = 1;       // idle mode request for avoid timer1 (dynamic scan interrupt)
     };
     --timer_1_cnt;    // clear post flag (25ms)
 }
@@ -110,6 +142,17 @@ unsigned char keyscan()
          else{
               keycnt = 0;
               return 0;
+         }
+     }
+}
+
+void stable()
+{
+     work1=0;
+     while(--work1!=0){
+         work2=0xff;
+         while(work2!=0){
+             --work2;
          }
      }
 }
@@ -248,6 +291,7 @@ void main()
     IE=0;     // All interrupt disable
     PCON=0;
     SCON=0;
+    stable();
     TMOD=0x12;        //Intialize Timer1=mode1 Timer0=2
     TL0=VALTH0;       // Timer0 by mode 2 with 250us interval
     TH0=VALTH0;
