@@ -19,8 +19,8 @@
 // Added comment for LED elements
 //
 // Target board definition
-//#define AKIT112
-#define SHE879
+#define AKIT112
+//#define SHE879
 //#define YC33
 //
 // System Parameter
@@ -377,7 +377,8 @@ void main()
                     hour1 = hour % 10;
                     break;
               case  2: // Press
-                    mode = 0;  // move to hourset;
+                    sec1 = sec2 = 0;  // Seconds are reset
+                    mode = 0;  // move to online;
                     break;
               }
               break;
